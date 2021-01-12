@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="design.css">
 <?php
 include('classes/DB.php');
 
@@ -16,7 +17,9 @@ if (isset($_POST['login'])) {
 			DB::query('INSERT INTO login_tokens VALUES (\'\',:token,:user_id)',array(':token'=>sha1($token),':user_id'=>$user_id));
 
 			setcookie("PROIECTTW",$token,time()+60*60*24*7,'/',NULL,NULL,TRUE);
-			//setcookie("PROIECTTW_",'1',time()+60*60*24*3,'/',NULL,NULL,TRUE);
+			setcookie("PROIECTTW_",'1',time()+60*60*24*3,'/',NULL,NULL,TRUE);
+			header("Location: my-messages.php");
+                        die();
 		}
 		else
 		{
@@ -30,8 +33,11 @@ if (isset($_POST['login'])) {
 }
 ?>
 <h1>Login to your account</h1>
+<div class="login-form">
 <form action="login.php" method="post">
 <input type="text" name="username" value="" placeholder="Username..."><p />
 <input type="password" name="password" value="" placeholder="Password..."><p />
 <input type="submit" name="login" value="Login"><p />
+<a href="create-account.php" class="button">Create account</a>
 </form>
+</div>

@@ -1,26 +1,26 @@
+<link rel="stylesheet" type="text/css" href="design2.css">
 <?php
 include('classes/DB.php');
-include('Login2.php');
+include('classes/Login.php');
 
-if(Login2::isLoggedIn())
-{
-	die("Not logged in");
+if (!Login::isLoggedIn()) {
+        die("Not logged in.");
 }
-if (isset($_POST['confirm'])) 
-{
-	if ($_POST['alldevices']=='alldevices')
-	{
-		DB::query('DELETE FROM login_token where user_id=:user_id',array(':userid'=>sha1($_COOKIE['PROIECTTW'])));
-	}
-	else
-	{
-			 if(isset($_COOKIE['PROIECTTW']))
-			 {
-			 	DB::query('DELETE FROM login_token where token=:token',array(':token'=>sha1($_COOKIE['PROIECTTW'])));
-			 }
-			 setcookie('PROIECTTW','1',time()-3600);
-			 setcookie('PROIECTTW_','1',time()-3600);
-	}
+
+if (isset($_POST['confirm'])) {
+
+        if (isset($_POST['alldevices'])) {
+
+                DB::query('DELETE FROM login_tokens WHERE user_id=:userid', array(':userid'=>Login::isLoggedIn()));
+
+        } else {
+                if (isset($_COOKIE['PROIECTTW'])) {
+                        DB::query('DELETE FROM login_tokens WHERE token=:token', array(':token'=>sha1($_COOKIE['SNID'])));
+                }
+                setcookie('PROIECTTW', '1', time()-3600);
+                setcookie('PROIECTTW_', '1', time()-3600);
+        }
+
 }
 ?>
 <h1>Logout of your Account?</h1>
